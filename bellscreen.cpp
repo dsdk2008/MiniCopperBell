@@ -996,7 +996,10 @@ void
 BellScreen::keyPressEvent(QKeyEvent *event)
 {
     if (Qt::Key_Escape == event->key())
+    {
+        d->soundRingBell->stop();
         close();
+    }
 }
 
 
@@ -1041,6 +1044,7 @@ BellScreen::init()
 void
 BellScreen::timeout()
 {
+    d->soundRingBell->stop();
     close();
 }
 
