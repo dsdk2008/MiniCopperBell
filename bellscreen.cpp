@@ -748,6 +748,7 @@ public:
     ~BellScreen_p()
     {}
 
+    QTimer beforeRingBellTimer;
     QString ringBellSoundPath;
     QString beforeRingBellImagePath;
     QString ringBellImagePath;
@@ -997,6 +998,7 @@ BellScreen::keyPressEvent(QKeyEvent *event)
 {
     if (Qt::Key_Escape == event->key())
     {
+        d->beforeRingBellTimer.stop();
         d->soundRingBell->stop();
         close();
     }
@@ -1013,6 +1015,8 @@ BellScreen::init()
 
     setCursor(Qt::BlankCursor);
     setStyleSheet("background: black");
+
+    d->beforeRingBellTimer.setSingleShot(true);
 
     d->soundRingBell = new QSound(d->ringBellSoundPath, this);
     d->soundRingBell->setLoops(d->soundPlayCount);
@@ -1037,13 +1041,17 @@ BellScreen::init()
     d->movieBeforeRingBell->start();
 
     QTimer::singleShot(d->maximumTimeout, this, SLOT(timeout()));
-    QTimer::singleShot(d->beforeRingBellTimeout, this, SLOT(switchToRingBell()));
+    d->beforeRingBellTimer.setInterval(d->beforeRingBellTimeout);
+    connect(&d->beforeRingBellTimer, SIGNAL(timeout()), SLOT(switchToRingBell()));
+    //QTimer::singleShot(d->beforeRingBellTimeout, this, SLOT());
+    d->beforeRingBellTimer.start();
 }
 
 
 void
 BellScreen::timeout()
 {
+    d->beforeRingBellTimer.stop();
     d->soundRingBell->stop();
     close();
 }
