@@ -698,7 +698,7 @@ typedef struct tagScreenResolution
 {
     int width;
     int height;
-    char* name;
+    const char* name;
 }ScreenResolution;
 
 const ScreenResolution gScreenResolutions[] =
@@ -809,7 +809,7 @@ Settings::selectSoundFile()
     if (QDialog::Rejected == dlg.exec())
         return;
 
-    QStringList &files = dlg.selectedFiles();
+    const QStringList &files = dlg.selectedFiles();
     if ((files.size()) <= 0)
         return;
 
@@ -829,7 +829,7 @@ Settings::selectBeforeRingbellAni()
     if (QDialog::Rejected == dlg.exec())
         return;
 
-    QStringList &files = dlg.selectedFiles();
+    const QStringList &files = dlg.selectedFiles();
     if ((files.size()) <= 0)
         return;
 
@@ -848,7 +848,7 @@ Settings::selectRingingAni()
     if (QDialog::Rejected == dlg.exec())
         return;
 
-    QStringList &files = dlg.selectedFiles();
+    const QStringList &files = dlg.selectedFiles();
     if ((files.size()) <= 0)
         return;
 
@@ -867,7 +867,7 @@ Settings::selectAfterRingbellAni()
     if (QDialog::Rejected == dlg.exec())
         return;
 
-    QStringList &files = dlg.selectedFiles();
+    const QStringList &files = dlg.selectedFiles();
     if ((files.size()) <= 0)
         return;
 
